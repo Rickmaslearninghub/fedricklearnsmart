@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RICKMAS LEARNING HUB</title>
+    <style>
+        /* === CSS STYLING === */
+        :root {
+            --primary-color: #004d99;
+            --secondary-color: #f4f4f9;
+            --text-color: #333;
+            --accent-color: #ff9900;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Search Section */
+        .search-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 70%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Past Papers List (Arranged Vertically) */
+        .paper-list {
+            display: flex;
+            flex-direction: column; /* Arranges items vertically */
+            gap: 15px;
+        }
+
+        .paper-card {
+            background: white;
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .paper-card:hover {
+            transform: translateX(5px);
+        }
+
+        .paper-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+        }
+
+        .paper-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .download-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Admin Section */
+        .admin-panel {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--accent-color);
+            height: fit-content;
+        }
+
+        .admin-panel h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .admin-panel input, .admin-panel textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .admin-panel button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--text-color);
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .search-bar input {
+                width: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RICKMAS LEARNING HUB</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#papers">Past Papers</a>
+            <a href="#admin">Admin</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="search-bar">
+                <h2>Find Your Examination</h2>
+                <input type="text" id="searchInput" placeholder="Enter name of examination (e.g., Biology 2025)..." onkeyup="searchPapers()">
+                <button onclick="searchPapers()">Search</button>
+            </div>
+
+            <div class="paper-list" id="paperContainer">
+                </div>
+        </main>
+
+        <aside class="admin-panel" id="admin">
+            <h2>Admin Upload</h2>
+            <p style="font-size: 0.85rem; color: #666;">*This is a prototype. Uploads will appear in the list temporarily.*</p>
+            
+            <label for="examName">Name of Examination:</label>
+            <input type="text" id="examName" placeholder="e.g., Mathematics Form 4">
+            
+            <label for="examCaption">Caption / Description:</label>
+            <textarea id="examCaption" rows="3" placeholder="Add a description or year..."></textarea>
+            
+            <label for="examFile">Upload File:</label>
+            <input type="file" id="examFile">
+            
+            <button onclick="uploadPaper()">Upload Past Paper</button>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RICKMAS LEARNING HUB. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample data for past papers
+        let papers = [
+            { name: "Biology National Examination", caption: "Form 4 Final Exam - 2025" },
+            { name: "Physics Mock Exam", caption: "Dodoma Region - 2024" },
+            { name: "Advanced Mathematics", caption: "Form 6 Practice Paper - 2026" }
+        ];
+
+        // Function to display papers vertically
+        function displayPapers(paperArray) {
+            const container = document.getElementById('paperContainer');
+            container.innerHTML = ""; // Clear current list
+
+            if(paperArray.length === 0) {
+                container.innerHTML = "<p>No examinations found matching your search.</p>";
+                return;
+            }
+
+            paperArray.forEach(paper => {
+                const paperCard = document.createElement('div');
+                paperCard.className = 'paper-card';
+                paperCard.innerHTML = `
+                    <div class="paper-info">
+                        <h3>${paper.name}</h3>
+                        <p>${paper.caption}</p>
+                    </div>
+                    <a href="#" class="download-btn" onclick="alert('Downloading ${paper.name}...')">Open / Download</a>
+                `;
+                container.appendChild(paperCard);
+            });
+        }
+
+        // Function to search/filter papers
+        function searchPapers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredPapers = papers.filter(paper => 
+                paper.name.toLowerCase().includes(query) || 
+                paper.caption.toLowerCase().includes(query)
+            );
+            displayPapers(filteredPapers);
+        }
+
+        // Function to simulate Admin Upload
+        function uploadPaper() {
+            const nameInput = document.getElementById('examName').value;
+            const captionInput = document.getElementById('examCaption').value;
+            const fileInput = document.getElementById('examFile').value;
+
+            if (nameInput === "" || captionInput === "") {
+                alert("Please fill in the Examination Name and Caption.");
+                return;
+            }
+
+            // Add new paper to the array
+            const newPaper = {
+                name: nameInput,
+                caption: captionInput
+            };
+            
+            // Add to the top of the list
+            papers.unshift(newPaper); 
+            
+            // Refresh the display
+            displayPapers(papers);
+
+            // Clear the admin form
+            document.getElementById('examName').value = "";
+            document.getElementById('examCaption').value = "";
+            document.getElementById('examFile').value = "";
+            
+            alert("Success! " + nameInput + " has been added to the list.");
+        }
+
+        // Initial load of papers
+        displayPapers(papers);
+    </script>
+</body>
+</html>
